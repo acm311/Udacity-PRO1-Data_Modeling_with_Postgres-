@@ -10,28 +10,31 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 # (FACT TABLE) records in log data associated with song plays
 songplay_table_create = ("""
-    CREATE TABLE IF NOT EXISTS songplays (songplay_id int PRIMARY KEY, start_time date, user_id int, 
-            level varchar, song_id varchar, artist_id varchar, session_id int, location varchar, 
+    CREATE TABLE IF NOT EXISTS songplays (songplay_id int PRIMARY KEY, 
+            start_time date, user_id int NOT NULL, 
+            level varchar, song_id varchar, 
+            artist_id varchar, session_id int, location varchar, 
             user_agent varchar)
 """)
 
 # users in the app
 user_table_create = ("""
-    CREATE TABLE IF NOT EXISTS users (user_id int PRIMARY KEY, first_name varchar, last_name varchar, 
-            gender char(1), level varchar)
+    CREATE TABLE IF NOT EXISTS users (user_id int PRIMARY KEY, first_name varchar NOT NULL, 
+            last_name varchar NOT NULL, gender char(1), level varchar)
 
 """)
 
 # songs in music database
 song_table_create = ("""
-    CREATE TABLE IF NOT EXISTS songs (song_id varchar PRIMARY KEY, title varchar, artist_id varchar, 
-            year int, duration float)
+    CREATE TABLE IF NOT EXISTS songs (song_id varchar PRIMARY KEY, title varchar NOT NULL, 
+            artist_id varchar NOT NULL, year int, 
+            duration float NOT NULL)
 """)
 
 # artists in music database
 artist_table_create = ("""
-    CREATE TABLE IF NOT EXISTS artists (artist_id varchar PRIMARY KEY, name varchar, location varchar, 
-            latitude decimal, longitude decimal)
+    CREATE TABLE IF NOT EXISTS artists (artist_id varchar PRIMARY KEY, name varchar NOT NULL, 
+            location varchar, latitude decimal, longitude decimal)
 """)
 
 # timestamps of records in songplays broken down into specific units
@@ -50,7 +53,11 @@ songplay_table_insert = ("""
 
 user_table_insert = ("""
     INSERT INTO users (user_id, first_name, last_name, gender, level) VALUES (%s, %s, %s, %s, %s)
-        ON CONFLICT (user_id) DO NOTHING;
+        ON CONFLICT (user_id)
+        DO UPDATE
+            SET level = EXCLUDED.level, 
+                first_name = EXCLUDED.first_name, 
+                last_name = EXCLUDED.last_name;
 """)
 
 song_table_insert = ("""
