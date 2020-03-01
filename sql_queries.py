@@ -11,7 +11,7 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 # (FACT TABLE) records in log data associated with song plays
 songplay_table_create = ("""
     CREATE TABLE IF NOT EXISTS songplays (songplay_id int PRIMARY KEY, 
-            start_time date, user_id int NOT NULL, 
+            start_time timestamp NOT NULL, user_id int NOT NULL, 
             level varchar, song_id varchar, 
             artist_id varchar, session_id int, location varchar, 
             user_agent varchar)
@@ -39,7 +39,7 @@ artist_table_create = ("""
 
 # timestamps of records in songplays broken down into specific units
 time_table_create = ("""
-    CREATE TABLE IF NOT EXISTS time (start_time date PRIMARY KEY, hour int, day int, 
+    CREATE TABLE IF NOT EXISTS time (start_time timestamp PRIMARY KEY, hour int, day int, 
             week int,  month int, year int, weekday varchar)
 """)
 
@@ -55,9 +55,7 @@ user_table_insert = ("""
     INSERT INTO users (user_id, first_name, last_name, gender, level) VALUES (%s, %s, %s, %s, %s)
         ON CONFLICT (user_id)
         DO UPDATE
-            SET level = EXCLUDED.level, 
-                first_name = EXCLUDED.first_name, 
-                last_name = EXCLUDED.last_name;
+            SET level = EXCLUDED.level;
 """)
 
 song_table_insert = ("""

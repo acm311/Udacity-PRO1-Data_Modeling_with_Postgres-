@@ -37,22 +37,21 @@ In order to response to the business needs we're using a star schema, that gives
 The schema is compose by 4 dimentional tables and one fact table.
 
 #### Fact Table
-
-<strong>songplays</strong> - records in log data associated with song plays i.e. records with page NextSong
+**songplays** - records in log data associated with song plays i.e. records with page NextSong
 - songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent
 
 #### Dimension Tables
 
-<strong>users</strong> - users in the app
+**users** - users in the app
 - user_id, first_name, last_name, gender, level
 
-<strong>songs</strong> - songs in music database
+**songs** - songs in music database
 - song_id, title, artist_id, year, duration
 
-<strong>artists</strong> - artists in music database
+**artists** - artists in music database
 - artist_id, name, location, latitude, longitude
 
-<strong>time</strong> - timestamps of records in <strong>songplays</strong> broken down into specific units
+**time** - timestamps of records in **songplays** broken down into specific units
 - start_time, hour, day, week, month, year, weekday
 
 ### ETL Pipeline
